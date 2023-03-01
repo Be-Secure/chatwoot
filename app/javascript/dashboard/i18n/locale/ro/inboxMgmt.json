@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Număr de telefon",
             "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-            "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Creați un canal de lățime de bandă",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Număr de telefon",
           "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Introduceți o valoare validă. Numărul de telefon ar trebui să înceapă cu semnul `+`."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "URL Webhook",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Creați canalul WhatsApp",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "Corect!",
         "DESC": "Ai reușit să integrezi pagina ta de Facebook cu Chatwoot. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe Chatwoot.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "Inbox-ul este gata!",
-      "MESSAGE": "Acum poți intra în contact cu clienții tăi prin noul tău Canal. Suport fericit ",
+      "MESSAGE": "Acum poți intra în contact cu clienții tăi prin noul tău Canal. Suport fericit",
       "BUTTON_TEXT": "Du-mă acolo",
       "MORE_SETTINGS": "Mai multe setări",
       "WEBSITE_SUCCESS": "Ați finalizat cu succes crearea unui canal web. Copiați codul de mai jos și inserati-l pe site-ul dvs. Data viitoare când un client folosește conversația live, conversația va apărea automat pe căsuța poștală."
@@ -383,6 +396,10 @@
         "DISABLED": "Dezactivat"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Activat",
+        "DISABLED": "Dezactivat"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Activat",
         "DISABLED": "Dezactivat"
       },
@@ -413,7 +430,9 @@
       "CONFIGURATION": "Configurare",
       "CAMPAIGN": "Campanii",
       "PRE_CHAT_FORM": "Formular pre chat",
-      "BUSINESS_HOURS": "Program de lucru"
+      "BUSINESS_HOURS": "Program de lucru",
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Setări",
     "FEATURES": {
@@ -437,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Activați/dezactivați sondajul CSAT (Satisfacția clienților) după rezolvarea unei conversații",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activați continuitatea conversației prin e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversațiile vor continua prin e-mail dacă adresa de e-mail de contact este disponibilă.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Setări Inbox",
       "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
@@ -451,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permiteți rezolvarea mesajelor după ce conversația a fost rezolvată",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "Cheie API"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "Cheie API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizare",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +564,10 @@
       },
       "ENABLE_SSL": "Activare SSL"
     },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
+    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Setarea detaliilor SMTP",
@@ -574,6 +604,92 @@
       "OPEN_SSL_VERIFY_MODE": "Deschideți modul de verificare SSL",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Nume website",
+          "PLACE_HOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Titlu de salut",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Tagline de Bun Venit",
+          "PLACE_HOLDER": "Noi facem conectarea cu noi simplă. Întreabă-ne orice, sau partajează-ți feedback-ul."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "În câteva minute",
+          "IN_A_FEW_HOURS": "În câteva ore",
+          "IN_A_DAY": "Într-o zi"
+        },
+        "WIDGET_COLOR_LABEL": "Culoare widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Discută cu noi",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Discută cu noi"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Previzualizați",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
+        "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
+        "IN_A_DAY": "De obicei, răspunsurile într-o zi"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Începe conversația",
+        "CHAT_INPUT_PLACEHOLDER": "Scrie mesajul tău"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "Suntem plecați în acest moment"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Oferit de Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
+    }
   }
 }

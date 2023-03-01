@@ -4,7 +4,7 @@ module AssignmentHandler
 
   included do
     before_save :ensure_assignee_is_from_team
-    after_commit :notify_assignment_change, :process_assignment_activities
+    after_commit :notify_assignment_change, :process_assignment_changes
   end
 
   private
@@ -23,8 +23,8 @@ module AssignmentHandler
   def find_assignee_from_team
     return if team&.allow_auto_assign.blank?
 
-    team_members = inbox.members.ids & team.members.ids
-    ::RoundRobin::AssignmentService.new(conversation: self, allowed_member_ids: team_members).find_assignee
+    team_members_with_capacity = inbox.member_ids_with_assignment_capacity & team.members.ids
+    ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: team_members_with_capacity).find_assignee
   end
 
   def notify_assignment_change
@@ -36,6 +36,11 @@ module AssignmentHandler
     end
   end
 
+  def process_assignment_changes
+    process_assignment_activities
+    process_participant_assignment
+  end
+
   def process_assignment_activities
     user_name = Current.user.name if Current.user.present?
     if saved_change_to_team_id?
@@ -43,5 +48,11 @@ module AssignmentHandler
     elsif saved_change_to_assignee_id?
       create_assignee_change_activity(user_name)
     end
+  end
+
+  def process_participant_assignment
+    return unless saved_change_to_assignee_id? && assignee_id.present?
+
+    conversation_participants.find_or_create_by!(user_id: assignee_id)
   end
 end

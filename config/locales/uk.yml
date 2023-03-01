@@ -23,7 +23,7 @@ uk:
     reset_password_failure: Ой-ой! Ми не змогли знайти жодного користувача з цією адресою електронної пошти.
   errors:
     validations:
-      presence: must not be blank
+      presence: не повинно бути пустим
     webhook:
       invalid: Недійсні події
     signup:
@@ -33,26 +33,28 @@ uk:
       failed: Помилка реєстрації
     data_import:
       data_type:
-        invalid: Invalid data type
+        invalid: Некоректний тип даних
     contacts:
       import:
         failed: Файл порожній
       email:
-        invalid: Invalid email
+        invalid: Невірний email
       phone_number:
-        invalid: should be in e164 format
+        invalid: має бути у форматі e164
     categories:
       locale:
-        unique: should be unique in the category and portal
+        unique: має бути унікальним на категорії і порталі
+    dyte:
+      invalid_message_type: "Invalid message type. Action not permitted"
     inboxes:
       imap:
         socket_error: Перевірте підключення до мережі, адреса IMAP і повторіть спробу.
         no_response_error: Будь ласка, перевірте облікові дані IMAP і повторіть спробу.
-        host_unreachable_error: Хост недоступний. Будь-ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
+        host_unreachable_error: Хост недоступний. Будь ласка, перевірте адресу IMAP, порт IMAP і повторіть спробу.
         connection_timed_out_error: Вичерпано час очікування з'єднання для %{address}:%{port}
         connection_closed_error: З'єднання закрито.
       validations:
-        name: should not start or end with symbols, and it should not have < > / \ @ characters.
+        name: не повинно починатись або закінчуватися символами, і він не повинен мати < > / \ @ символів.
   reports:
     period: Період звіту %{since} до %{until}
     agent_csv:
@@ -96,7 +98,7 @@ uk:
   conversations:
     messages:
       instagram_story_content: "%{story_sender} згадав вас у сторіс: "
-      instagram_deleted_story_content: This story is no longer available.
+      instagram_deleted_story_content: Ця історія більше не доступна.
       deleted: Це повідомлення було видалено
     activity:
       status:
@@ -129,6 +131,10 @@ uk:
         header:
           from_with_name: '%{assignee_name} з %{inbox_name} <%{from_email}>'
           reply_with_name: '%{assignee_name} від %{inbox_name} <reply+%{reply_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} from <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: "Нові повідомлення в цьому діалозі"
       transcript_subject: "Транскрипція діалогу"
     survey:
@@ -137,6 +143,10 @@ uk:
     online:
       delete: "%{contact_name} в онлайні, будь ласка, спробуйте ще раз пізніше"
   integration_apps:
+    dyte:
+      name: "Dyte"
+      description: "Dyte is tool that helps you to add live audio & video to your application with just a few lines of code. This integration allows you to give an option to your agents to have a video or voice call with your customers from without leaving Chatwoot."
+      meeting_name: "%{agent_name} has started a meeting"
     slack:
       name: "Slack"
       description: "Slack - це інструмент чату, який об'єднує ваші комунікації разом в одному місці. Інтегруючи Slack, ви можете отримати повідомлення про всі нові діалоги у вашому обліковому записі прямо в Slack."
@@ -149,3 +159,25 @@ uk:
     fullcontact:
       name: "Fullcontact"
       description: "Інтеграція FullContact допомагає збагачувати профілі відвідувачів. Визначте користувачів, як тільки вони поділяться адресою електронної пошти та пропонують їм адаптовану службу клієнтів. Під'єднайте ваш FullContact до вашого аккаунту, поділившись ключем FullContact API."
+    google_translate:
+      name: "Google Translate"
+      description: "Make it easier for agents to translate messages by adding a Google Translate Integration. Google translate helps to identify the language automatically and convert it to the language chosen by the agent/account admin."
+  public_portal:
+    search:
+      search_placeholder: Пошук статті за заголовком або змістом...
+      empty_placeholder: Результатів не знайдено.
+      loading_placeholder: Шукаємо...
+      results_title: Результати пошуку
+    hero:
+      sub_title: Шукайте тут або перегляньте категорії нижче.
+    common:
+      home: Головна
+      last_updated_on: Last updated on %{last_updated_on}
+      view_all_articles: View all articles
+      article: article
+      articles: статті
+      no_articles: There are no articles here
+    footer:
+      made_with: Made with
+    header:
+      go_to_homepage: Go to the main site

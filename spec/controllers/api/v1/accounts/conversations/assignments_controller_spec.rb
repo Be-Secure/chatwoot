@@ -35,7 +35,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       end
 
       it 'assigns a team to the conversation' do
-        team_member = create(:user, account: account, role: :agent)
+        team_member = create(:user, account: account, role: :agent, auto_offline: false)
         create(:inbox_member, inbox: conversation.inbox, user: team_member)
         create(:team_member, team: team, user: team_member)
         params = { team_id: team.id }
@@ -56,8 +56,8 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       before do
-        conversation.update!(assignee: agent)
         create(:inbox_member, inbox: conversation.inbox, user: agent)
+        conversation.update!(assignee: agent)
       end
 
       it 'unassigns the assignee from the conversation' do

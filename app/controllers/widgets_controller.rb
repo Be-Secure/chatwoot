@@ -4,6 +4,7 @@ class WidgetsController < ActionController::Base
 
   before_action :set_global_config
   before_action :set_web_widget
+  before_action :ensure_account_is_active
   before_action :set_token
   before_action :set_contact
   before_action :build_contact
@@ -17,6 +18,9 @@ class WidgetsController < ActionController::Base
 
   def set_web_widget
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.error('web widget does not exist')
+    render json: { error: 'web widget does not exist' }, status: :not_found
   end
 
   def set_token
@@ -44,6 +48,10 @@ class WidgetsController < ActionController::Base
 
     @contact_inbox, @token = build_contact_inbox_with_token(@web_widget, additional_attributes)
     @contact = @contact_inbox.contact
+  end
+
+  def ensure_account_is_active
+    render json: { error: 'Account is suspended' }, status: :unauthorized unless @web_widget.inbox.account.active?
   end
 
   def additional_attributes

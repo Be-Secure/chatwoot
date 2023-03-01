@@ -1,11 +1,10 @@
 <template>
   <div class="medium-3 bg-white contact--panel">
-    <woot-button
-      icon="chevron-right"
-      class="close-button clear secondary"
-      @click="onPanelToggle"
+    <contact-info
+      :contact="contact"
+      :channel-type="channelType"
+      @toggle-panel="onPanelToggle"
     />
-    <contact-info :contact="contact" :channel-type="channelType" />
     <draggable
       :list="conversationSidebarItems"
       :disabled="!dragEnabled"
@@ -34,6 +33,24 @@
               "
             >
               <conversation-action
+                :conversation-id="conversationId"
+                :inbox-id="inboxId"
+              />
+            </accordion-item>
+          </div>
+          <div
+            v-else-if="element.name === 'conversation_participants'"
+            class="conversation--actions"
+          >
+            <accordion-item
+              :title="$t('CONVERSATION_PARTICIPANTS.SIDEBAR_TITLE')"
+              :is-open="isContactSidebarItemOpen('is_conv_participants_open')"
+              @click="
+                value =>
+                  toggleSidebarUIState('is_conv_participants_open', value)
+              "
+            >
+              <conversation-participant
                 :conversation-id="conversationId"
                 :inbox-id="inboxId"
               />
@@ -93,6 +110,19 @@
               />
             </accordion-item>
           </div>
+          <woot-feature-toggle
+            v-else-if="element.name === 'macros'"
+            feature-key="macros"
+          >
+            <accordion-item
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.MACROS')"
+              :is-open="isContactSidebarItemOpen('is_macro_open')"
+              compact
+              @click="value => toggleSidebarUIState('is_macro_open', value)"
+            >
+              <macros-list :conversation-id="conversationId" />
+            </accordion-item>
+          </woot-feature-toggle>
         </div>
       </transition-group>
     </draggable>
@@ -105,6 +135,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
+import ConversationParticipant from './ConversationParticipant.vue';
 
 import ContactInfo from './contact/ContactInfo';
 import ConversationInfo from './ConversationInfo';
@@ -112,6 +143,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import CustomAttributeSelector from './customAttributes/CustomAttributeSelector.vue';
 import draggable from 'vuedraggable';
 import uiSettingsMixin from 'dashboard/mixins/uiSettings';
+import MacrosList from './Macros/List';
 
 export default {
   components: {
@@ -122,7 +154,9 @@ export default {
     CustomAttributes,
     CustomAttributeSelector,
     ConversationAction,
+    ConversationParticipant,
     draggable,
+    MacrosList,
   },
   mixins: [alertMixin, uiSettingsMixin],
   props: {
@@ -258,15 +292,6 @@ export default {
       }
     }
   }
-}
-
-.close-button {
-  position: absolute;
-  right: $space-two;
-  top: $space-slab;
-  font-size: $font-size-default;
-  color: $color-heading;
-  z-index: 9989;
 }
 
 .conversation--labels {

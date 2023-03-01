@@ -1,15 +1,22 @@
 <template>
   <div v-on-clickaway="closeSearch" class="search-wrap">
-    <div class="search" :class="{ 'is-active': showSearchBox }">
-      <woot-sidemenu-icon />
-      <div class="icon">
-        <fluent-icon icon="search" class="search--icon" size="28" />
+    <div class="search-header--wrap" :class="{ 'is-active': showSearchBox }">
+      <woot-sidemenu-icon v-if="!showSearchBox" />
+      <div class="search" :class="{ 'is-active': showSearchBox }">
+        <div class="icon">
+          <fluent-icon icon="search" class="search--icon" size="16" />
+        </div>
+        <input
+          v-model="searchTerm"
+          class="search--input"
+          :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
+          @focus="onSearch"
+        />
       </div>
-      <input
-        v-model="searchTerm"
-        class="search--input"
-        :placeholder="$t('CONVERSATION.SEARCH_MESSAGES')"
-        @focus="onSearch"
+      <switch-layout
+        v-if="!showSearchBox"
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle="$emit('toggle-conversation-layout')"
       />
     </div>
     <div v-if="showSearchBox" class="results-wrap">
@@ -55,10 +62,11 @@ import { mapGetters } from 'vuex';
 import timeMixin from '../../../../mixins/time';
 import ResultItem from './ResultItem';
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
+import SwitchLayout from './SwitchLayout.vue';
 export default {
   components: {
     ResultItem,
+    SwitchLayout,
   },
 
   directives: {
@@ -70,6 +78,13 @@ export default {
   },
 
   mixins: [timeMixin, messageFormatterMixin, clickaway],
+
+  props: {
+    isOnExpandedLayout: {
+      type: Boolean,
+      required: true,
+    },
+  },
 
   data() {
     return {
@@ -141,14 +156,22 @@ export default {
 <style lang="scss" scoped>
 .search-wrap {
   position: relative;
+  padding: var(--space-one) var(--space-normal) var(--space-smaller)
+    var(--space-normal);
+}
+
+.search-header--wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: var(--space-large);
 }
 
 .search {
   display: flex;
-  padding: 0;
+  flex: 1;
+  padding: 0 var(--space-smaller);
   border-bottom: 1px solid transparent;
-  padding: var(--space-one) var(--space-normal) var(--space-smaller)
-    var(--space-normal);
 
   &:hover {
     .search--icon {
@@ -172,8 +195,7 @@ export default {
 
 .search--icon {
   color: var(--s-600);
-  font-size: var(--font-size-large);
-  padding: 0 var(--space-small) 0 0;
+  margin: 0 var(--space-smaller);
 }
 
 .icon {
@@ -193,6 +215,7 @@ input::placeholder {
   width: 100%;
   max-height: 70vh;
   overflow: auto;
+  left: 0;
 }
 
 .show-results {

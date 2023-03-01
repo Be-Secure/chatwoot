@@ -134,7 +134,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefoon nummer",
           "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-          "ERROR": "Voer een geldige waarde in. Telefoonnummer moet beginnen met `+` teken."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
@@ -185,7 +185,7 @@
           "PHONE_NUMBER": {
             "LABEL": "Telefoon nummer",
             "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-            "ERROR": "Voer een geldige waarde in. Telefoonnummer moet beginnen met `+` teken."
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
@@ -214,7 +214,7 @@
         "PHONE_NUMBER": {
           "LABEL": "Telefoon nummer",
           "PLACEHOLDER": "Voer het telefoonnummer in waaruit het bericht wordt verzonden.",
-          "ERROR": "Voer een geldige waarde in. Telefoonnummer moet beginnen met `+` teken."
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
@@ -239,7 +239,9 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "You have to configure the webhook URL in facebook developer portal with the URL mentioned here."
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
+          "WEBHOOK_URL": "Webhook URL",
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
@@ -342,6 +344,17 @@
       "FINISH": {
         "TITLE": "Geïnstalleerd het!",
         "DESC": "U heeft de integratie van uw Facebook-pagina met Chatwood succesvol voltooid. Volgende keer dat een klant uw pagina bericht, zal het gesprek automatisch in uw inbox verschijnen.<br>We bieden u ook een widget script aan, dat u eenvoudig aan uw website kunt toevoegen. Zodra dit live is op je website klanten kunnen vanaf uw website een bericht sturen zonder de hulp van een externe tool en het gesprek verschijnt hier op Chatwoot.<br>Koel, toch? Wel, proberen we zeker om te zijn :)"
+      },
+      "EMAIL_PROVIDER": {
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+      },
+      "MICROSOFT": {
+        "TITLE": "Microsoft Email",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
@@ -357,7 +370,7 @@
     },
     "FINISH": {
       "TITLE": "Uw postvak is klaar!",
-      "MESSAGE": "Je kunt nu contact opnemen met je klanten via het nieuwe Kanaal. Gelukkige ondersteuning ",
+      "MESSAGE": "Je kunt nu contact opnemen met je klanten via het nieuwe Kanaal. Gelukkige ondersteuning",
       "BUTTON_TEXT": "Breng me ernaar toe",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "Het aanmaken van een website kanaal is gelukt. Kopieer de code hieronder weergegeven en plak deze op uw website. De volgende keer dat een klant de live chat gebruikt, verschijnt het gesprek automatisch op uw inbox."
@@ -383,6 +396,10 @@
         "DISABLED": "Uitgeschakeld"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
+        "ENABLED": "Ingeschakeld",
+        "DISABLED": "Uitgeschakeld"
+      },
+      "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Ingeschakeld",
         "DISABLED": "Uitgeschakeld"
       },
@@ -413,7 +430,9 @@
       "CONFIGURATION": "Configuration",
       "CAMPAIGN": "Campaigns",
       "PRE_CHAT_FORM": "Pre Chat Form",
-      "BUSINESS_HOURS": "Business Hours"
+      "BUSINESS_HOURS": "Business Hours",
+      "WIDGET_BUILDER": "Widget Builder",
+      "BOT_CONFIGURATION": "Bot Configuration"
     },
     "SETTINGS": "Instellingen",
     "FEATURES": {
@@ -437,6 +456,8 @@
       "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Instellingen Postvak In",
       "INBOX_UPDATE_SUB_TEXT": "Update uw inbox instellingen",
       "AUTO_ASSIGNMENT_SUB_TEXT": "In- of uitschakelen van de automatische toewijzing van nieuwe gesprekken aan de agenten die aan deze inbox zijn toegevoegd.",
@@ -451,7 +472,12 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Key"
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_TITLE": "API Key",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Vernieuwen",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
@@ -538,6 +564,10 @@
       },
       "ENABLE_SSL": "Enable SSL"
     },
+    "MICROSOFT": {
+      "TITLE": "Microsoft",
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
+    },
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Set your SMTP details",
@@ -574,6 +604,92 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "Note: "
+    "NOTE": "Note: ",
+    "WIDGET_BUILDER": {
+      "WIDGET_OPTIONS": {
+        "AVATAR": {
+          "LABEL": "Website Avatar",
+          "DELETE": {
+            "API": {
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "Er is een fout opgetreden, probeer het opnieuw"
+            }
+          }
+        },
+        "WEBSITE_NAME": {
+          "LABEL": "Website naam",
+          "PLACE_HOLDER": "Voer de naam van je website in (bv. Acme Inc)",
+          "ERROR": "Please enter a valid website name"
+        },
+        "WELCOME_HEADING": {
+          "LABEL": "Welkom op titel",
+          "PLACE_HOLDER": "Hi there!"
+        },
+        "WELCOME_TAGLINE": {
+          "LABEL": "Welkom Tagline",
+          "PLACE_HOLDER": "We maken het eenvoudig om met ons te verbinden. Vraag ons iets of deel uw feedback."
+        },
+        "REPLY_TIME": {
+          "LABEL": "Reply Time",
+          "IN_A_FEW_MINUTES": "In a few minutes",
+          "IN_A_FEW_HOURS": "In a few hours",
+          "IN_A_DAY": "In a day"
+        },
+        "WIDGET_COLOR_LABEL": "Kleur van widget",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
+        "WIDGET_BUBBLE_LAUNCHER_TITLE": {
+          "DEFAULT": "Chat met ons",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Chat met ons"
+        },
+        "UPDATE": {
+          "BUTTON_TEXT": "Update Widget Settings",
+          "API": {
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
+          }
+        },
+        "WIDGET_VIEW_OPTION": {
+          "PREVIEW": "Preview",
+          "SCRIPT": "Script"
+        },
+        "WIDGET_BUBBLE_POSITION": {
+          "LEFT": "Left",
+          "RIGHT": "Right"
+        },
+        "WIDGET_BUBBLE_TYPE": {
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
+        }
+      },
+      "WIDGET_SCREEN": {
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
+      },
+      "REPLY_TIME": {
+        "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
+        "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
+        "IN_A_DAY": "Reageert meestal binnen een dag"
+      },
+      "FOOTER": {
+        "START_CONVERSATION_BUTTON_TEXT": "Start Chat",
+        "CHAT_INPUT_PLACEHOLDER": "Typ uw bericht"
+      },
+      "BODY": {
+        "TEAM_AVAILABILITY": {
+          "ONLINE": "We are Online",
+          "OFFLINE": "We zijn momenteel afwezig"
+        },
+        "USER_MESSAGE": "Hi",
+        "AGENT_MESSAGE": "Hello"
+      },
+      "BRANDING_TEXT": "Mogelijk gemaakt door Chatwoot",
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+    },
+    "EMAIL_PROVIDERS": {
+      "MICROSOFT": "Microsoft",
+      "OTHER_PROVIDERS": "Other Providers"
+    }
   }
 }

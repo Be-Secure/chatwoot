@@ -2,7 +2,7 @@
   <section class="notification--table-wrap">
     <woot-submit-button
       v-if="notificationMetadata.unreadCount"
-      class="button nice success button--fixed-right-top"
+      class="button nice success button--fixed-top"
       :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
       :loading="isUpdating"
       @click="onMarkAllDoneClick"
@@ -13,6 +13,9 @@
         <tr
           v-for="notificationItem in notifications"
           :key="notificationItem.id"
+          :class="{
+            'is-unread': notificationItem.read_at === null,
+          }"
           @click="() => onClickNotification(notificationItem)"
         >
           <td>
@@ -161,6 +164,10 @@ export default {
       }
     }
   }
+}
+
+.is-unread {
+  font-weight: var(--font-weight-bold);
 }
 
 .notifications--loader {

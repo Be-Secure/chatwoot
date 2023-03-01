@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_06_085458) do
+ActiveRecord::Schema.define(version: 2023_02_24_124632) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
 
@@ -53,6 +54,9 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.integer "feature_flags", default: 0, null: false
     t.integer "auto_resolve_duration"
     t.jsonb "limits", default: {}
+    t.jsonb "custom_attributes", default: {}
+    t.integer "status", default: 0
+    t.index ["status"], name: "index_accounts_on_status"
   end
 
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
@@ -127,8 +131,11 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "author_id"
     t.bigint "associated_article_id"
+    t.jsonb "meta", default: {}
+    t.string "slug", null: false
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -142,6 +149,8 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.datetime "updated_at", null: false
     t.string "fallback_title"
     t.string "extension"
+    t.index ["account_id"], name: "index_attachments_on_account_id"
+    t.index ["message_id"], name: "index_attachments_on_message_id"
   end
 
   create_table "automation_rules", force: :cascade do |t|
@@ -244,6 +253,8 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.string "smtp_authentication", default: "login"
     t.string "smtp_openssl_verify_mode", default: "none"
     t.boolean "smtp_enable_ssl_tls", default: false
+    t.jsonb "provider_config", default: {}
+    t.string "provider"
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
@@ -375,7 +386,20 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
+    t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
+  end
+
+  create_table "conversation_participants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "conversation_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_conversation_participants_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
+    t.index ["user_id", "conversation_id"], name: "index_conversation_participants_on_user_id_and_conversation_id", unique: true
+    t.index ["user_id"], name: "index_conversation_participants_on_user_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -391,7 +415,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.datetime "agent_last_seen_at"
     t.jsonb "additional_attributes", default: {}
     t.bigint "contact_inbox_id"
-    t.uuid "uuid", default: -> { "public.gen_random_uuid()" }, null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.string "identifier"
     t.datetime "last_activity_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.bigint "team_id"
@@ -404,11 +428,14 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
     t.index ["campaign_id"], name: "index_conversations_on_campaign_id"
+    t.index ["contact_id"], name: "index_conversations_on_contact_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["first_reply_created_at"], name: "index_conversations_on_first_reply_created_at"
+    t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["last_activity_at"], name: "index_conversations_on_last_activity_at"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["team_id"], name: "index_conversations_on_team_id"
+    t.index ["uuid"], name: "index_conversations_on_uuid", unique: true
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
@@ -524,6 +551,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
     t.jsonb "auto_assignment_config", default: {}
+    t.boolean "lock_to_single_conversation", default: false, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
   end
 
@@ -562,6 +590,18 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.index ["title", "account_id"], name: "index_labels_on_title_and_account_id", unique: true
   end
 
+  create_table "macros", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.integer "visibility", default: 0
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.jsonb "actions", default: {}, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["account_id"], name: "index_macros_on_account_id"
+  end
+
   create_table "mentions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "conversation_id", null: false
@@ -593,7 +633,9 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.jsonb "external_source_ids", default: {}
     t.jsonb "additional_attributes", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
+    t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
@@ -689,6 +731,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.datetime "updated_at", precision: 6, null: false
     t.jsonb "config", default: {"allowed_locales"=>["en"]}
     t.boolean "archived", default: false
+    t.index ["custom_domain"], name: "index_portals_on_custom_domain", unique: true
     t.index ["slug"], name: "index_portals_on_slug", unique: true
   end
 
@@ -824,7 +867,7 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "webhook_type", default: 0
-    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "message_created", "message_updated", "webwidget_triggered"]
+    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
@@ -844,38 +887,8 @@ ActiveRecord::Schema.define(version: 2022_07_06_085458) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
-  add_foreign_key "account_users", "accounts", on_delete: :cascade
-  add_foreign_key "account_users", "users", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "agent_bots", "accounts", on_delete: :cascade
-  add_foreign_key "articles", "articles", column: "associated_article_id"
-  add_foreign_key "articles", "users", column: "author_id"
-  add_foreign_key "campaigns", "accounts", on_delete: :cascade
-  add_foreign_key "campaigns", "inboxes", on_delete: :cascade
-  add_foreign_key "categories", "categories", column: "associated_category_id"
-  add_foreign_key "categories", "categories", column: "parent_category_id"
-  add_foreign_key "contact_inboxes", "contacts", on_delete: :cascade
-  add_foreign_key "contact_inboxes", "inboxes", on_delete: :cascade
-  add_foreign_key "conversations", "campaigns", on_delete: :cascade
-  add_foreign_key "conversations", "contact_inboxes", on_delete: :cascade
-  add_foreign_key "conversations", "teams", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "accounts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "contacts", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "conversations", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "messages", on_delete: :cascade
-  add_foreign_key "csat_survey_responses", "users", column: "assigned_agent_id", on_delete: :cascade
-  add_foreign_key "dashboard_apps", "accounts"
-  add_foreign_key "dashboard_apps", "users"
-  add_foreign_key "data_imports", "accounts", on_delete: :cascade
-  add_foreign_key "mentions", "conversations", on_delete: :cascade
-  add_foreign_key "mentions", "users", on_delete: :cascade
-  add_foreign_key "notes", "accounts", on_delete: :cascade
-  add_foreign_key "notes", "contacts", on_delete: :cascade
-  add_foreign_key "notes", "users", on_delete: :cascade
-  add_foreign_key "team_members", "teams", on_delete: :cascade
-  add_foreign_key "team_members", "users", on_delete: :cascade
-  add_foreign_key "teams", "accounts", on_delete: :cascade
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
