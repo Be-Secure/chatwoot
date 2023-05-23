@@ -37,6 +37,13 @@ export const AUTOMATIONS = {
         filterOperators: OPERATOR_TYPES_1,
       },
       {
+        key: 'conversation_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
         key: 'phone_number',
         name: 'Phone Number',
         attributeI18nKey: 'PHONE_NUMBER',
@@ -158,6 +165,20 @@ export const AUTOMATIONS = {
         key: 'inbox_id',
         name: 'Inbox',
         attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'conversation_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'priority',
+        name: 'Priority',
+        attributeI18nKey: 'PRIORITY',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
@@ -292,6 +313,20 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'conversation_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'priority',
+        name: 'Priority',
+        attributeI18nKey: 'PRIORITY',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
     ],
     actions: [
       {
@@ -413,6 +448,20 @@ export const AUTOMATIONS = {
         key: 'inbox_id',
         name: 'Inbox',
         attributeI18nKey: 'INBOX',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'conversation_language',
+        name: 'Conversation Language',
+        attributeI18nKey: 'CONVERSATION_LANGUAGE',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'priority',
+        name: 'Priority',
+        attributeI18nKey: 'PRIORITY',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
@@ -546,5 +595,10 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'send_message',
     label: 'Send a message',
     inputType: 'textarea',
+  },
+  {
+    key: 'change_priority',
+    label: 'Change Priority',
+    inputType: 'search_select',
   },
 ];
